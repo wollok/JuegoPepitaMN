@@ -1,0 +1,17 @@
+import pepita.*
+import wollok.game.*
+import niveles.*
+
+program PepitaGame {
+	game.title("Pepita")
+	game.height(10)
+	game.width(10)
+	game.boardGround("fondo2.jpg")
+	
+	tutorial2.configurar()
+		
+	const saludoPepita = game.sound("pepita-start.mp3")
+	game.schedule(100, { saludoPepita.play() })
+	
+	game.start()
+}

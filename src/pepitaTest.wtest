@@ -1,0 +1,12 @@
+import pepita.*
+import wollok.game.*
+
+test "si pepita no es alcanzada por silvestre se ve normal" {
+	pepita.position(game.at(1, 0))
+	assert.equals("pepita.png", pepita.image())	
+}
+
+test "si pepita colisiona con silvestre eso afecta cómo se ve" {
+	pepita.position(game.at(3, 0))
+	assert.equals("pepita-gris.png", pepita.image())	
+}
