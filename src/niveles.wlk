@@ -11,7 +11,7 @@ object tutorial2 {
 		game.addVisual(pepita)
 		game.showAttributes(pepita) // Debug
 		teclado.configurar()
-		colisiones.configurar()
+		acciones.configurar()
 	}
 
 }
@@ -28,7 +28,8 @@ object teclado {
 	}
 }
 
-object colisiones {
+object acciones {
 	method configurar() {
+		game.onTick(800, "pepitaCae", { pepita.perderAltura() })
 	}
 }

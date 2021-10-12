@@ -14,6 +14,7 @@ object pepita {
 		if (!self.terminoElJuego()) {
 			self.volar(nuevaPosicion.distance(position))
 			position = nuevaPosicion
+			self.corregirPosicion()
 			self.chequearEstadoJuego()
 		}
 	}
@@ -26,6 +27,9 @@ object pepita {
 			game.sound("ganaste.mp3").play()
 			game.removeVisual(objetivo)
 			game.schedule(17000, { game.stop() })
+		}
+		if (self.terminoElJuego()) {
+			game.removeTickEvent("pepitaCae")
 		}
 	}
 	method estaCansada() = energia <= 0
@@ -41,6 +45,13 @@ object pepita {
 	}
 	method comer(comida) {
 		energia = energia + comida.energiaQueOtorga()
+	}
+	method perderAltura() {
+		position = position.down(1)
+		self.corregirPosicion()
+	}
+	method corregirPosicion() {
+		position = game.at(position.x().max(0).min(game.width()), position.y().max(0).min(game.height()))
 	}
 }
 
