@@ -1,4 +1,5 @@
 import wollok.game.*
+import niveles.*
 
 object pepita {
 	var property enemigo = silvestre
@@ -15,34 +16,13 @@ object pepita {
 			self.volar(nuevaPosicion.distance(position))
 			position = nuevaPosicion
 			self.corregirPosicion()
-			self.chequearEstadoJuego()
-		}
-	}
-	method chequearEstadoJuego() {
-		if (self.estaCansada()) {
-			game.sound("perdiste.wav").play()
-			game.schedule(3000, { game.stop() })
-		}
-		if (self.llegoAlNido()) {
-			game.sound("ganaste.mp3").play()
-			game.removeVisual(objetivo)
-			game.schedule(17000, { game.stop() })
-		}
-		if (self.terminoElJuego()) {
-			game.removeTickEvent("pepitaCae")
 		}
 	}
 	method estaCansada() = energia <= 0
 	method teAtraparon() = enemigo.position() == self.position()
 	method llegoAlNido() = objetivo.position() == self.position()
+	
 	method terminoElJuego() = self.estaCansada() || self.teAtraparon() || self.llegoAlNido()
-	method atraparComida() {
-		const comida = game.uniqueCollider(self)
-		if (comida !== null) {
-			self.comer(comida)
-		}
-		game.removeVisual(comida)
-	}
 	method comer(comida) {
 		energia = energia + comida.energiaQueOtorga()
 	}
@@ -51,7 +31,7 @@ object pepita {
 		self.corregirPosicion()
 	}
 	method corregirPosicion() {
-		position = game.at(position.x().max(0).min(game.width()), position.y().max(0).min(game.height()))
+		position = new Position(x = position.x().max(0).min(game.width()), y = position.y().max(0).min(game.height()))
 	}
 }
 
@@ -59,10 +39,12 @@ object silvestre {
 	var property personajePrincipal = pepita
 
 	method image() = "silvestre.png"
-	method position() = game.at(personajePrincipal.position().x().max(3), 0)
+	method position() = new Position(x = personajePrincipal.position().x().max(3), y = 0)
 }
 
 object nido {
+	const tablero = game
+	
 	method image() = "nido.png"
-	method position() = game.center() // game.at(game.width(), game.height())
+	method position() = tablero.center() // new Position(x = tablero.width(), y = tablero.height())
 }

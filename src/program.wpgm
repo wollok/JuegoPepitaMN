@@ -8,7 +8,7 @@ program PepitaGame {
 	game.width(10)
 	game.boardGround("fondo2.jpg")
 	
-	tutorial2.configurar()
+	juegoPepita.configurar()
 		
 	const saludoPepita = game.sound("pepita-start.mp3")
 	game.schedule(100, { saludoPepita.play() })
