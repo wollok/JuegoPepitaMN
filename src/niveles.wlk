@@ -1,11 +1,13 @@
 import wollok.game.*
 import pepita.*
+import comidas.*
 
 object tutorial2 {
 
 	method configurar() {
 		game.addVisual(nido)
 		game.addVisual(silvestre)
+		game.addVisual(manzana)
 		game.addVisual(pepita)
 		game.showAttributes(pepita) // Debug
 		teclado.configurar()
@@ -20,14 +22,13 @@ object teclado {
 		keyboard.right().onPressDo { pepita.irA(pepita.position().right(1))}
 		keyboard.up().onPressDo { pepita.irA(pepita.position().up(1))}
 		keyboard.down().onPressDo { pepita.irA(pepita.position().down(1))}
+		keyboard.c().onPressDo { 
+			pepita.atraparComida()
+		}
 	}
 }
 
 object colisiones {
 	method configurar() {
-		game.onCollideDo(nido, { otroObjeto =>
-			game.sound("ganaste.mp3").play()
-			game.schedule(17000, { game.stop() })
-		})
 	}
 }
