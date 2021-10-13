@@ -8,7 +8,7 @@ object pepita {
 	var property position = game.origin()
 	var property energia = 100
 
-	method image() = if (self.estaCansada() || self.teAtraparon()) "pepita-gris.png" else "pepita.png"
+	method image() = if (self.perdio()) "pepita-gris.png" else "pepita.png"
 
 	method volar(kms) {
 		energia = energia - (kms * 9)
@@ -24,9 +24,7 @@ object pepita {
 
 	method estaCansada() = energia <= 0
 
-	method perdio() {
-		return self.estaCansada() || self.teAtraparon()
-	}
+	method perdio() = self.estaCansada() || self.teAtraparon()
 
 	method gano() = self.llegoAlNido()
 
@@ -55,10 +53,6 @@ object silvestre {
 
 	method position() = new Position(x = personajePrincipal.position().x().max(3), y = 0)
 
-	method teChoco(alguien) {
-		alguien.teAtraparon(true)
-	}
-
 	method esComida() = false
 
 }
@@ -71,9 +65,6 @@ object nido {
 
 	method position() = tablero.center() // new Position(x = tablero.width(), y = tablero.height())
 
-	method teChoco(alguien) {
-		alguien.llegoAlNido(true)
-	}
 
 	method esComida() = false
 

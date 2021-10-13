@@ -4,13 +4,13 @@ import comidas.*
 
 object juegoPepita {
 
-	var alimentos = 1
+	const alimentos = []
 	var enJuego = true
 
 	method configurar() {
 		game.addVisual(nido)
 		game.addVisual(silvestre)
-		game.addVisual(new Manzana())
+		self.agregarComida(new Manzana())
 		game.addVisual(pepita)
 		game.showAttributes(pepita) // Debug
 		teclado.configurar()
@@ -20,9 +20,9 @@ object juegoPepita {
 	}
 
 	method agregarAlimento() {
-		if (alimentos < 3) {
-			if (0.randomUpTo(1) == 0) game.addVisual(new Manzana()) else game.addVisual(new Alpiste(cuantoOtorga = 10.randomUpTo(50)))
-			alimentos = alimentos + 1
+		if (alimentos.size() < 3) {
+			const nuevoAlimento = if (0.randomUpTo(1) == 0) new Manzana() else new Alpiste(cuantoOtorga = 10.randomUpTo(50))
+			self.agregarComida(nuevoAlimento)
 		}
 	}
 
@@ -34,17 +34,26 @@ object juegoPepita {
 		game.onTick(800, "pepitaCae", { pepita.perderAltura()})
 	}
 
-	method colisionar(objeto, contraQue) {
-		contraQue.teChoco(objeto)
-		if (contraQue.esComida()) {
-			game.removeVisual(contraQue)
-			alimentos = alimentos - 1
-		}
-		self.chequearEstadoJuego()
+	method comer(comida) {
+		pepita.comer(comida)
+		game.removeVisual(comida)
+		alimentos.remove(comida)
+	}
+
+	method teAtraparon() {
+		pepita.teAtraparon(true)
+		self.perder()
 	}
 
 	method configurarColiciones() {
-		game.onCollideDo(pepita, { algo => self.colisionar(pepita, algo)})
+		game.onCollideDo(silvestre, { algo => self.teAtraparon()})
+		game.onCollideDo(nido, { algo => self.ganar()})
+	}
+
+	method agregarComida(comida) {
+		game.addVisual(comida)
+		alimentos.add(comida)
+		game.onCollideDo(comida, { algo => self.comer(comida)})
 	}
 
 	method terminarJuego(sonido, mensaje, demora) {
