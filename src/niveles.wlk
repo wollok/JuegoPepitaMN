@@ -82,9 +82,6 @@ object juegoPepita {
 		if (enJuego && pepita.perdio()) {
 			self.perder()
 		}
-		if (enJuego && pepita.gano()) {
-			self.ganar()
-		}
 	}
 
 }
