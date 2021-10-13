@@ -48,6 +48,7 @@ object juegoPepita {
 	}
 
 	method terminarJuego(sonido, mensaje, demora) {
+		enJuego = false
 		game.sound(sonido).play()
 		game.say(pepita, mensaje)
 		game.schedule(demora, { game.stop()})
@@ -65,7 +66,7 @@ object juegoPepita {
 
 	method limitarMovimientos() {
 		game.removeTickEvent("pepitaCae")
-		enJuego = false
+		game.removeTickEvent("agregarComida")
 	}
 
 	method chequearEstadoJuego() {
