@@ -5,5 +5,6 @@ object manzana {
 
 	method image() = "manzana.png"
 	method energiaQueOtorga() = 40
+	method teChoco(alguien) {}
 }
 

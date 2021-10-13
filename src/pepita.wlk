@@ -2,8 +2,8 @@ import wollok.game.*
 import niveles.*
 
 object pepita {
-	var property enemigo = silvestre
-	var property objetivo = nido
+	var property teAtraparon = false
+	var property llegoAlNido = false
 	var property position = game.origin()
 	var property energia = 100
 
@@ -19,10 +19,11 @@ object pepita {
 		}
 	}
 	method estaCansada() = energia <= 0
-	method teAtraparon() = enemigo.position() == self.position()
-	method llegoAlNido() = objetivo.position() == self.position()
+
+	method perdio() = self.estaCansada() || self.teAtraparon()
+	method gano() = self.llegoAlNido()
+	method terminoElJuego() = self.gano() || self.perdio()
 	
-	method terminoElJuego() = self.estaCansada() || self.teAtraparon() || self.llegoAlNido()
 	method comer(comida) {
 		energia = energia + comida.energiaQueOtorga()
 	}
@@ -40,6 +41,9 @@ object silvestre {
 
 	method image() = "silvestre.png"
 	method position() = new Position(x = personajePrincipal.position().x().max(3), y = 0)
+	method teChoco(alguien) {
+		alguien.teAtraparon(true)
+	}
 }
 
 object nido {
@@ -47,4 +51,7 @@ object nido {
 	
 	method image() = "nido.png"
 	method position() = tablero.center() // new Position(x = tablero.width(), y = tablero.height())
+	method teChoco(alguien) {
+		alguien.llegoAlNido(true)
+	}
 }
