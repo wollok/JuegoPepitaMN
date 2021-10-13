@@ -1,10 +1,27 @@
 import wollok.game.*
 
-object manzana {
-	var property position = game.at(1.randomUpTo(3).roundUp(), 1.randomUpTo(3).roundUp())
+class Alimento { 
+	var property position = game.at(1.randomUpTo(3).roundUp(), 1.randomUpTo(3).roundUp()) 
 
-	method image() = "manzana.png"
-	method energiaQueOtorga() = 40
-	method teChoco(alguien) {}
+	method image()
+	method energiaQueOtorga()
+	method teChoco(alguien) {
+		alguien.comer(self)
+	}
+	method esComida() = true
 }
 
+class Manzana inherits Alimento{ 
+
+	override method image() = "manzana.png"
+	override method energiaQueOtorga() = 40
+
+}
+
+class Alpiste inherits Alimento{ 
+	const cuantoOtorga
+	
+	override method image() = "manzana.png"
+	override method energiaQueOtorga() = cuantoOtorga
+
+}

@@ -20,7 +20,9 @@ object pepita {
 	}
 	method estaCansada() = energia <= 0
 
-	method perdio() = self.estaCansada() || self.teAtraparon()
+	method perdio() {
+		return self.estaCansada() || self.teAtraparon()
+		}
 	method gano() = self.llegoAlNido()
 	method terminoElJuego() = self.gano() || self.perdio()
 	
@@ -44,6 +46,7 @@ object silvestre {
 	method teChoco(alguien) {
 		alguien.teAtraparon(true)
 	}
+	method esComida()= false
 }
 
 object nido {
@@ -54,4 +57,5 @@ object nido {
 	method teChoco(alguien) {
 		alguien.llegoAlNido(true)
 	}
+	method esComida()= false
 }
