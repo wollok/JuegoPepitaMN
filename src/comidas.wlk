@@ -8,12 +8,6 @@ class Alimento {
 
 	method energiaQueOtorga()
 
-	method teChoco(alguien) {
-		alguien.comer(self)
-	}
-
-	method esComida() = true
-
 }
 
 class Manzana inherits Alimento {

@@ -53,8 +53,6 @@ object silvestre {
 
 	method position() = new Position(x = personajePrincipal.position().x().max(3), y = 0)
 
-	method esComida() = false
-
 }
 
 object nido {
@@ -64,9 +62,6 @@ object nido {
 	method image() = "nido.png"
 
 	method position() = tablero.center() // new Position(x = tablero.width(), y = tablero.height())
-
-
-	method esComida() = false
 
 }
 
