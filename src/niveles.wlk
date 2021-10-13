@@ -21,22 +21,28 @@ object juegoPepita {
 		game.onTick(800, "pepitaCae", { pepita.perderAltura()})
 	}
 
+	method colisionar(objeto,contraQue) {
+		contraQue.teChoco(objeto)
+		self.chequearEstadoJuego()
+	}
+	
 	method configurarColiciones() {
-		game.onCollideDo(pepita,{algo => algo.teChoco(pepita)})
+		game.onCollideDo(pepita,{algo => self.colisionar(pepita,algo)})
 	}
 
+	method terminarJuego(sonido,mensaje, demora){
+		game.sound(sonido).play()
+		game.say(pepita,mensaje)
+		game.schedule(demora, { game.stop()})
+		self.limitarMovimientos()		
+	}
 	method perder() {
-		game.sound("perdiste.wav").play()
-		game.say(pepita,"Changos!")
-		game.schedule(3000, { game.stop()})
-		self.limitarMovimientos()
+		self.terminarJuego("perdiste.wav","Changos!",3000)
 	}
 
 	method ganar() {
-		game.sound("ganaste.mp3").play()
 		game.removeVisual(nido)
-		game.schedule(17000, { game.stop()})
-		self.limitarMovimientos()
+		self.terminarJuego("ganaste.mp3","VAMAAAAAAAAAA",17000)
 	}
 
 	method limitarMovimientos() {
@@ -72,7 +78,6 @@ object teclado {
 		keyboard.up().onPressDo{ pepita.irA(pepita.position().up(1))}
 		keyboard.down().onPressDo{ pepita.irA(pepita.position().down(1))}
 		keyboard.c().onPressDo{ juegoPepita.atraparComida()}
-		keyboard.any().onPressDo{ juegoPepita.chequearEstadoJuego()}
 	}
 
 }
